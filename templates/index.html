@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Art Generator</title>
+</head>
+<body>
+
+    <h1>ASCII Art Generator</h1>
+
+    <form action="/ascii-art" method="POST">
+        <textarea
+            name="text"
+            rows="5"
+            cols="50"
+            placeholder="Enter text here"></textarea>
+
+        <br><br>
+
+        <input type="radio" name="banner" value="standard" checked>
+        Standard
+
+        <input type="radio" name="banner" value="shadow">
+        Shadow
+
+        <input type="radio" name="banner" value="thinkertoy">
+        Thinkertoy
+
+        <br><br>
+
+        <button type="submit">Generate</button>
+    </form>
+
+    <hr>
+
+    <pre>{{.Result}}</pre>
+
+</body>
+</html>
