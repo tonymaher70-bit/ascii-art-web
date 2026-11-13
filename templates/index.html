@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,26 +11,31 @@
     <h1>ASCII Art Generator</h1>
 
     <form action="/ascii-art" method="POST">
+
         <textarea
             name="text"
             rows="5"
             cols="50"
-            placeholder="Enter text here"></textarea>
+            placeholder="Enter text here...">{{.Text}}</textarea>
 
         <br><br>
 
-        <input type="radio" name="banner" value="standard" checked>
+        <input type="radio" name="banner" value="standard"
+            {{if eq .Banner "standard"}}checked{{end}}>
         Standard
 
-        <input type="radio" name="banner" value="shadow">
+        <input type="radio" name="banner" value="shadow"
+            {{if eq .Banner "shadow"}}checked{{end}}>
         Shadow
 
-        <input type="radio" name="banner" value="thinkertoy">
+        <input type="radio" name="banner" value="thinkertoy"
+            {{if eq .Banner "thinkertoy"}}checked{{end}}>
         Thinkertoy
 
         <br><br>
 
         <button type="submit">Generate</button>
+
     </form>
 
     <hr>

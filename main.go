@@ -2,11 +2,14 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
 type PageData struct {
 	Result string
+	Banner string
+	Text   string
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +24,10 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, PageData{
+		Banner: "standard",
+		Text:   "",
+	})
 }
 
 func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
@@ -54,16 +60,26 @@ func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := PageData{
 		Result: result,
+		Banner: banner,
+		Text:   text,
 	}
 
-	tmpl.Execute(w, data)
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func main() {
-	http.HandleFunc("/", home)
-	http.HandleFunc("/ascii-art", asciiArtHandler)
+	var err error
+	mux := http.NewServeMux()
+	mux.Handle("/", http.HandlerFunc(home))
+	mux.Handle("/ascii-art", http.HandlerFunc(asciiArtHandler))
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		panic(err)
+	err = http.ListenAndServe(":8080", mux)
+
+	if err != nil {
+		log.Fatal("Error starting server: ", err)
 	}
 }
